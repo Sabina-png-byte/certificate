@@ -1,0 +1,181 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #09090f; }
+::-webkit-scrollbar-thumb { background: #4da6ff; border-radius: 10px; }
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #09090f;
+  color: white;
+  overflow-x: hidden;
+  transition: 0.4s ease;
+}
+
+body.light { background: #ffffff; color: #111; }
+body.light .glass { background: rgba(0, 0, 0, 0.05); border: 1px solid rgba(0, 0, 0, 0.1); color: #111; }
+
+.sidebar {
+  position: fixed;
+  width: 230px;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  padding: 30px;
+  z-index: 999;
+}
+
+.sidebar nav { display: flex; flex-direction: column; gap: 16px; margin-top: 40px; }
+.sidebar nav a { color: inherit; text-decoration: none; transition: 0.3s; }
+.sidebar nav a:hover { transform: translateX(8px); color: #4da6ff; }
+
+main { margin-left: 260px; padding: 40px; }
+
+.glass {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+}
+
+.hero {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-content { padding: 60px; text-align: center; z-index: 10; width: 80%; }
+
+.floating {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(30px);
+  opacity: 0.5;
+  cursor: pointer;
+  transition: 0.5s;
+  animation: floatAnim 10s infinite ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.floating:hover { filter: blur(5px); opacity: 0.9; transform: scale(1.1); }
+
+.planet-label {
+  position: absolute;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.p1 { width: 300px; height: 300px; background: radial-gradient(#00d4ff, transparent); top: -50px; left: -50px; }
+.p2 { width: 180px; height: 180px; background: radial-gradient(#ff00c8, transparent); bottom: 10%; right: 5%; animation-delay: -2s; }
+.p3 { width: 120px; height: 120px; background: radial-gradient(#6a00ff, transparent); top: 15%; right: 15%; animation-delay: -4s; }
+.p4 { width: 150px; height: 150px; background: radial-gradient(#00ff88, transparent); bottom: 20%; left: 10%; animation-delay: -6s; }
+.p5 { width: 180px; height: 180px; background: radial-gradient(#ffcc00, transparent); top: 40%; left: 35%; animation-delay: -1s; }
+
+@keyframes floatAnim {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(30px, -40px); }
+}
+
+.section { margin-top: 100px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.panel { padding: 25px; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 20px; }
+.card { padding: 24px; cursor: pointer; transition: 0.4s; }
+.card:hover { transform: translateY(-10px); border-color: #4da6ff; }
+
+#chatHistory { height: 180px; overflow-y: auto; margin-bottom: 15px; padding: 10px; border-radius: 10px; background: rgba(0,0,0,0.2); }
+#aiInput { width: 100%; height: 60px; background: rgba(255,255,255,0.1); border: none; border-radius: 10px; color: white; padding: 10px; margin-bottom: 10px; resize: none; }
+
+.timer { font-size: 48px; margin: 20px 0; color: #4da6ff; text-align: center; }
+
+.heatmap { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; }
+.heat-box { aspect-ratio: 1; border-radius: 8px; }
+.h-high { background: #ff4d4d; opacity: 0.8; }
+.h-med { background: #ffcc00; opacity: 0.6; }
+.h-low { background: #4da6ff; opacity: 0.4; }
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(10px);
+}
+.modal-content { padding: 40px; width: 90%; max-width: 500px; text-align: center; border: 1px solid #4da6ff; }
+
+.cursor-glow {
+  position: fixed;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(77, 166, 255, 0.1), transparent 70%);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+
+.reveal { opacity: 0; transform: translateY(30px); transition: 0.8s; }
+.reveal.active { opacity: 1; transform: translateY(0); }
+
+.btn-explore, .btn-ai, .btn-add, .btn-start, .btn-close {
+    border: none; padding: 12px 24px; border-radius: 12px; cursor: pointer; transition: 0.3s;
+}
+.btn-explore { background: linear-gradient(135deg, #00d4ff, #0055ff); color: white; }
+.btn-ai { background: linear-gradient(135deg, #ff00c8, #7000ff); color: white; }
+.btn-add { background: #00ff88; color: #000; font-weight: bold; }
+.btn-start { background: #ffcc00; color: #000; font-weight: bold; width: 100%; }
+.btn-close { background: #ff4d4d; color: white; margin-top: 20px; }
+
+.footer { margin-top: 100px; padding: 40px 0; text-align: center; }
+.footer-line { height: 1px; background: linear-gradient(90deg, transparent, #4da6ff, transparent); margin-bottom: 20px; }
+.creator-name { font-weight: bold; background: linear-gradient(45deg, #ff00c8, #00d4ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.2rem; }
+
+.map-placeholder { width: 100%; height: 150px; background: rgba(0,0,0,0.3); border-radius: 15px; margin: 15px 0; display: flex; align-items: center; justify-content: center; border: 1px dashed #4da6ff; }
+/* 1. Пульсация анимациясы (шариктин артында) */
+.floating::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: inherit; /* Шариктин түсүн алат */
+  filter: blur(10px);
+  animation: pulseAnim 3s infinite;
+  z-index: -1;
+}
+
+@keyframes pulseAnim {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* 2. Курсор келгенде шариктин өзгөрүшү */
+.floating:hover {
+  filter: blur(0px) brightness(1.2); /* Сүрөт такталат жана жарык болот */
+  transform: scale(1.15);
+  cursor: pointer;
+}
+
+/* 3. Жазууну ачык көрсөтүү */
+.floating:hover .planet-label {
+  opacity: 1;
+  transform: translateY(-10px); /* Текст бир аз өйдө көтөрүлөт */
+  color: #fff;
+  text-shadow: 0 0 10px #4da6ff;
+}
